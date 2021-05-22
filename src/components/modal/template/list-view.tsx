@@ -57,7 +57,7 @@ export default function TemplateListViewModal({
         <Title>Template List</Title>
         {TEMPLATE_DATA.map((v, i) => (
           <TemplateInfoCard
-            key={i}
+            key={v.name}
             id={i}
             {...v}
             setSelectedTemplateId={setSelectedTemplateId}
