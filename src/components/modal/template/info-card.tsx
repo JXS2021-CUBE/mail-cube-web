@@ -8,16 +8,22 @@ export type TemplateInfoCardProps = {
   id: number;
   name: string;
   content: string;
+  setSelectedTemplateId: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function TemplateInfoCard({
   id,
   name,
   content,
+  setSelectedTemplateId,
 }: TemplateInfoCardProps) {
   return (
     <Wrapper>
-      <InfoWrapper>
+      <InfoWrapper
+        onClick={() => {
+          setSelectedTemplateId(id);
+        }}
+      >
         <Title>{name}</Title>
         <Content>{content}</Content>
       </InfoWrapper>

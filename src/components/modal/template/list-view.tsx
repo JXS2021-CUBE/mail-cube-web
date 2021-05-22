@@ -39,10 +39,12 @@ const TEMPLATE_DATA = [
 
 export type TemplateListViewModalProps = {
   closeModal: () => void;
+  setSelectedTemplateId: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function TemplateListViewModal({
   closeModal,
+  setSelectedTemplateId,
 }: TemplateListViewModalProps) {
   const selectTemplate = (e) => {
     e.stopPropagation();
@@ -54,7 +56,12 @@ export default function TemplateListViewModal({
       <Wrapper onClick={selectTemplate}>
         <Title>Template List</Title>
         {TEMPLATE_DATA.map((v, i) => (
-          <TemplateInfoCard id={i} {...v} />
+          <TemplateInfoCard
+            key={i}
+            id={i}
+            {...v}
+            setSelectedTemplateId={setSelectedTemplateId}
+          />
         ))}
       </Wrapper>
     </Overlay>

@@ -7,6 +7,7 @@ import { GREY, WHITE } from 'src/constants/colors';
 
 export default function EmailTemplate() {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<number>(null);
 
   const openModal = () => {
     setModalOpen(true);
@@ -17,7 +18,12 @@ export default function EmailTemplate() {
 
   return (
     <>
-      {isModalOpen && <TemplateListViewModal closeModal={closeModal} />}
+      {isModalOpen && (
+        <TemplateListViewModal
+          closeModal={closeModal}
+          setSelectedTemplateId={setSelectedTemplateId}
+        />
+      )}
       <Wrapper>
         <ButtonWrapper>
           <ModalOpenButton onClick={openModal}>Choose Template</ModalOpenButton>
