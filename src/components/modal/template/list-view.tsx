@@ -54,7 +54,7 @@ export default function TemplateListViewModal({
       <Wrapper onClick={selectTemplate}>
         <Title>Template List</Title>
         {TEMPLATE_DATA.map((v, i) => (
-          <TemplateInfoCard id={i} {...v} />
+          <TemplateInfoCard key={v.name} id={i} {...v} />
         ))}
       </Wrapper>
     </Overlay>
