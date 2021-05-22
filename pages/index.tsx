@@ -1,32 +1,22 @@
-import React, { ReactNode, ReactNodeArray, useState } from 'react';
+import React, { ReactNode, ReactNodeArray } from 'react';
 import styled from 'styled-components';
 
 import GlobalHeader from 'src/components/header';
 import Sidebar from 'src/components/sidebar';
-import TemplateListViewModal from 'src/components/modal/template/list-view';
 import { WHITE } from 'src/constants/colors';
+import EmailTemplate from 'src/components/email-template';
 
 export type GlobalLayoutProps = {
   children: ReactNode | ReactNodeArray;
 };
 
 export default function Home() {
-  //임시 state
-  const [isModalOpen, setModalOpen] = useState(true);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
   return (
     <Wrapper>
       <GlobalHeader />
       <Content>
         <Sidebar />
-        {isModalOpen && <TemplateListViewModal closeModal={closeModal} />}
+        <EmailTemplate />
       </Content>
     </Wrapper>
   );
