@@ -6,14 +6,16 @@ import RecipientListSection from './section/recipient-list';
 import { GREY } from 'src/constants/colors';
 
 export default function Sidebar({
+  selectedFileId,
   setSelectedFileId,
 }: {
+  selectedFileId: string;
   setSelectedFileId: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <Wrapper>
       <ExcelInputSection setSelectedFileId={setSelectedFileId} />
-      <RecipientListSection />
+      <RecipientListSection selectedFileId={selectedFileId} />
     </Wrapper>
   );
 }

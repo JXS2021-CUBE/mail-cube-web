@@ -17,7 +17,10 @@ export default function Home() {
     <Wrapper>
       <GlobalHeader />
       <Content>
-        <Sidebar setSelectedFileId={setSelectedFileId} />
+        <Sidebar
+          selectedFileId={selectedFileId}
+          setSelectedFileId={setSelectedFileId}
+        />
         <EmailTemplate recipientExcelFileId={parseInt(selectedFileId, 10)} />
       </Content>
     </Wrapper>

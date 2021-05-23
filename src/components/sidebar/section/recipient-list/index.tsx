@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { BLACK, GREY } from 'src/constants/colors';
+import { useExcel } from 'src/hooks/api/excel';
 
+// 백엔드 연결되면 삭제 예정
 const RECIPIENT_DATA = [
   { name: '가나다', email: '1111111@gmail.com' },
   { name: '나다라', email: '2222222@gmail.com' },
@@ -30,16 +32,31 @@ const RECIPIENT_DATA = [
   { name: '바사아', email: '6666666@gmail.com' },
 ];
 
-export default function RecipientListSection() {
+export default function RecipientListSection({
+  selectedFileId,
+}: {
+  selectedFileId: string;
+}) {
+  const { data } = useExcel(parseInt(selectedFileId, 10));
+
   return (
     <Wrapper>
       <Title>File Name</Title>
       <RecipientWrapper>
-        {RECIPIENT_DATA.map(({ name, email }, index) => (
-          <P key={name + index}>
-            {name}({email})
-          </P>
-        ))}
+        {
+          // 백엔드 연결되면 삭제 예정
+        }
+        {data
+          ? data.result.map(({ name, email }, index) => (
+              <P key={name + index}>
+                {name}({email})
+              </P>
+            ))
+          : RECIPIENT_DATA.map(({ name, email }, index) => (
+              <P key={name + index}>
+                {name}({email})
+              </P>
+            ))}
       </RecipientWrapper>
     </Wrapper>
   );
