@@ -1,33 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BLACK, SECONDARY } from 'src/constants/colors';
 import XIcon from 'src/assets/icons/x';
+import { BLACK, SECONDARY } from 'src/constants/colors';
+
+import TemplateService from 'src/services/api/template';
 
 export type TemplateInfoCardProps = {
   id: number;
-  name: string;
+  title: string;
   content: string;
-  setSelectedTemplateId: React.Dispatch<React.SetStateAction<number>>;
+  selectTemplate: (id: number) => void;
 };
 
 export default function TemplateInfoCard({
   id,
-  name,
+  title,
   content,
-  setSelectedTemplateId,
+  selectTemplate,
 }: TemplateInfoCardProps) {
+  const handleDeleteButtonClick = async () => {
+    if (!confirm('해당 템플릿을 삭제하시겠습니까?')) {
+      return;
+    }
+    try {
+      await TemplateService.deleteTemplate(id);
+    } catch (err) {
+      alert('템플릿 삭제에 실패하였습니다.');
+      return;
+    }
+    alert('템플릿이 삭제되었습니다.');
+  };
+
   return (
     <Wrapper>
       <InfoWrapper
         onClick={() => {
-          setSelectedTemplateId(id);
+          selectTemplate(id);
         }}
       >
-        <Title>{name}</Title>
+        <Title>{title}</Title>
         <Content>{content}</Content>
       </InfoWrapper>
-      <XIcon style={{ marginTop: '0.8rem' }} />
+      <DeleteButton onClick={handleDeleteButtonClick}>
+        <XIcon style={{ marginTop: '0.8rem' }} />
+      </DeleteButton>
     </Wrapper>
   );
 }
@@ -65,4 +82,9 @@ const Content = styled.p`
   white-space: normal;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+`;
+
+const DeleteButton = styled.button`
+  border: none;
+  background: none;
 `;

@@ -3,7 +3,52 @@ import styled from 'styled-components';
 
 import { GREY, PRIMARY, WHITE } from 'src/constants/colors';
 
-export default function Form() {
+import { TemplateType } from 'src/types';
+
+export type EmailFormProps = {
+  recipientExcelFileId: number;
+  selectedTemplate: TemplateType;
+};
+
+export default function EmailForm({
+  recipientExcelFileId,
+  selectedTemplate,
+}: EmailFormProps) {
+  const saveTemplate = async () => {
+    if (!title) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    if (!content) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
+    try {
+      await TemplateService.update(selectedTemplate?.id, { title, content });
+    } catch (err) {
+      alert('템플릿 저장에 실패하였습니다.');
+      return;
+    }
+    alert('템플릿 내용이 저장되었습니다.');
+  };
+
+  const addTemplate = async () => {
+    if (!title) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    if (!content) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
+    try {
+      await TemplateService.create({ title, content });
+    } catch (err) {
+      alert('템플릿 생성에 실패하였습니다.');
+      return;
+    }
+    alert('템플릿이 생성되었습니다.');
+  };
   return (
     <Wrapper>
       <TitleInput type="text" placeholder="Your E-mail Title" />
@@ -16,8 +61,12 @@ export default function Form() {
       </ContentWrapper>
       <ButtonWrapper>
         <TemplateButtonWrapper>
-          <TemplateButton>Save Teamplate</TemplateButton>
-          <TemplateButton>Add Template</TemplateButton>
+          {selectedTemplate && (
+            <TemplateButton onClick={saveTemplate}>
+              Save Teamplate
+            </TemplateButton>
+          )}
+          <TemplateButton onClick={addTemplate}>Add Template</TemplateButton>
         </TemplateButtonWrapper>
         <SendButton>Send</SendButton>
       </ButtonWrapper>
