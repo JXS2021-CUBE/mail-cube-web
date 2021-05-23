@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { GREY, PRIMARY, WHITE } from 'src/constants/colors';
 
+import TemplateService from 'src/services/api/template';
+import EmailService from 'src/services/api/email';
 import { TemplateType } from 'src/types';
 
 export type EmailFormProps = {
@@ -14,6 +16,16 @@ export default function EmailForm({
   recipientExcelFileId,
   selectedTemplate,
 }: EmailFormProps) {
+  const [title, setTitle] = useState(selectedTemplate?.title || '');
+  const [content, setContent] = useState(selectedTemplate?.content || '');
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
+
   const saveTemplate = async () => {
     if (!title) {
       alert('제목을 입력해주세요.');
@@ -49,11 +61,47 @@ export default function EmailForm({
     }
     alert('템플릿이 생성되었습니다.');
   };
+
+  const handleSubmit = async (e) => {
+    alert('hi');
+    e.preventDefault();
+    if (!recipientExcelFileId) {
+      alert('엑셀 파일을 올려 수신인을 등록해주세요.');
+    }
+    if (!title) {
+      alert('메일 제목을 입력해주세요.');
+      return;
+    }
+    if (!content) {
+      alert('메일 내용을 입력해주세요.');
+      return;
+    }
+    const { TEST_SENDER_NAME, TEST_SENDER_EMAIL } = process.env;
+
+    try {
+      await EmailService.create(recipientExcelFileId, {
+        title,
+        content,
+        senderName: TEST_SENDER_NAME,
+        senderEmail: TEST_SENDER_EMAIL,
+      });
+    } catch (err) {
+      alert('이메일 전송에 실패하였습니다.');
+      return;
+    }
+    alert('이메일이 전송되었습니다.');
+  };
+
   return (
-    <Wrapper>
-      <TitleInput type="text" placeholder="Your E-mail Title" />
+    <Wrapper onSubmit={handleSubmit}>
+      <TitleInput
+        type="text"
+        placeholder="Your E-mail Title"
+        value={title}
+        onChange={handleTitleChange}
+      />
       <ContentWrapper>
-        <ContentTextarea />
+        <ContentTextarea value={content} onChange={handleContentChange} />
         <InfoText>
           {'! Please write ${' +
             "name} where you want to put the recipient's name."}
@@ -68,7 +116,7 @@ export default function EmailForm({
           )}
           <TemplateButton onClick={addTemplate}>Add Template</TemplateButton>
         </TemplateButtonWrapper>
-        <SendButton>Send</SendButton>
+        <SubmitButton type="submit">Send</SubmitButton>
       </ButtonWrapper>
     </Wrapper>
   );
@@ -141,7 +189,7 @@ const TemplateButton = styled.button`
   background-color: ${WHITE};
 `;
 
-const SendButton = styled.button`
+const SubmitButton = styled.button`
   width: 20rem;
   height: 5rem;
   border-radius: 2.5rem;
