@@ -5,9 +5,18 @@ import TemplateListViewModal from 'src/components/modal/template/list-view';
 import EmailForm from 'src/components/email-template/form';
 import { GREY, WHITE } from 'src/constants/colors';
 
-export default function EmailTemplate() {
+import { useTemplate } from 'src/hooks/api/template';
+
+export type EmailTemplateProps = {
+  recipientExcelFileId: number;
+};
+
+export default function EmailTemplate({
+  recipientExcelFileId,
+}: EmailTemplateProps) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState<number>(null);
+  const { data } = useTemplate(selectedTemplateId);
 
   const openModal = () => {
     setModalOpen(true);
@@ -28,7 +37,10 @@ export default function EmailTemplate() {
         <ButtonWrapper>
           <ModalOpenButton onClick={openModal}>Choose Template</ModalOpenButton>
         </ButtonWrapper>
-        <EmailForm />
+        <EmailForm
+          recipientExcelFileId={recipientExcelFileId}
+          selectedTemplate={data?.result}
+        />
       </Wrapper>
     </>
   );

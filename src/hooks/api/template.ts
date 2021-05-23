@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-import { TemplateType } from 'src/types/template';
+import { TemplateType } from 'src/types';
 
 const fetcher = (url) => axios.get(url);
 

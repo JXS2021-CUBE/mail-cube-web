@@ -4,38 +4,7 @@ import styled from 'styled-components';
 import TemplateInfoCard from './info-card';
 import { BLACK, WHITE } from 'src/constants/colors';
 
-const TEMPLATE_DATA = [
-  {
-    name: '이것은 이메일1 제목입니다.',
-    content:
-      '이것은 이메일1 내용입니다.이것은 이메일1 내용입니다.이것은 이메일1 내용입니다.이것은 이메일1 내용입니다.이것은 이메일1 내용입니다.',
-  },
-  {
-    name: '이것은 이메일2 제목입니다.',
-    content:
-      '이것은 이메일2 내용입니다.이것은 이메일2 내용입니다.이것은 이메일2 내용입니다.이것은 이메일2 내용입니다.이것은 이메일2 내용입니다.',
-  },
-  {
-    name: '이것은 이메일3 제목입니다.',
-    content:
-      '이것은 이메일3 내용입니다.이것은 이메일3 내용입니다.이것은 이메일3 내용입니다.이것은 이메일3 내용입니다.이것은 이메일3 내용입니다.',
-  },
-  {
-    name: '이것은 이메일4 제목입니다.',
-    content:
-      '이것은 이메일4 내용입니다.이것은 이메일4 내용입니다.이것은 이메일4 내용입니다.이것은 이메일4 내용입니다.이것은 이메일4 내용입니다.',
-  },
-  {
-    name: '이것은 이메일5 제목입니다.',
-    content:
-      '이것은 이메일5 내용입니다.이것은 이메일5 내용입니다.이것은 이메일5 내용입니다.이것은 이메일5 내용입니다.이것은 이메일5 내용입니다.',
-  },
-  {
-    name: '이것은 이메일6 제목입니다.',
-    content:
-      '이것은 이메일6 내용입니다.이것은 이메일6 내용입니다.이것은 이메일6 내용입니다.이것은 이메일6 내용입니다.이것은 이메일6 내용입니다.',
-  },
-];
+import { useTemplateList } from 'src/hooks/api/template';
 
 export type TemplateListViewModalProps = {
   closeModal: () => void;
@@ -46,21 +15,28 @@ export default function TemplateListViewModal({
   closeModal,
   setSelectedTemplateId,
 }: TemplateListViewModalProps) {
-  const selectTemplate = (e) => {
-    e.stopPropagation();
+  const { data } = useTemplateList();
+
+  const selectTemplate = (id: number) => {
+    setSelectedTemplateId(id);
     closeModal();
   };
 
   return (
     <Overlay onClick={closeModal}>
-      <Wrapper onClick={selectTemplate}>
+      <Wrapper
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <Title>Template List</Title>
-        {TEMPLATE_DATA.map((v, i) => (
+        {data?.result?.map(({ id, title, content }) => (
           <TemplateInfoCard
-            key={v.name}
-            id={i}
-            {...v}
-            setSelectedTemplateId={setSelectedTemplateId}
+            key={id}
+            id={id}
+            title={title}
+            content={content}
+            selectTemplate={selectTemplate}
           />
         ))}
       </Wrapper>

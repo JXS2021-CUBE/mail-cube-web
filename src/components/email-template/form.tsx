@@ -1,14 +1,107 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { GREY, PRIMARY, WHITE } from 'src/constants/colors';
 
-export default function Form() {
+import TemplateService from 'src/services/api/template';
+import EmailService from 'src/services/api/email';
+import { TemplateType } from 'src/types';
+
+export type EmailFormProps = {
+  recipientExcelFileId: number;
+  selectedTemplate: TemplateType;
+};
+
+export default function EmailForm({
+  recipientExcelFileId,
+  selectedTemplate,
+}: EmailFormProps) {
+  const [title, setTitle] = useState(selectedTemplate?.title || '');
+  const [content, setContent] = useState(selectedTemplate?.content || '');
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
+
+  const saveTemplate = async () => {
+    if (!title) {
+      alert('Please enter a title.');
+      return;
+    }
+    if (!content) {
+      alert('Please enter your content.');
+      return;
+    }
+    try {
+      await TemplateService.update(selectedTemplate?.id, { title, content });
+    } catch (err) {
+      alert('Failed to save template.');
+      return;
+    }
+    alert('Template save success!');
+  };
+
+  const addTemplate = async () => {
+    if (!title) {
+      alert('Please enter a title.');
+      return;
+    }
+    if (!content) {
+      alert('Please enter your content.');
+      return;
+    }
+    try {
+      await TemplateService.create({ title, content });
+    } catch (err) {
+      alert('Failed to add template.');
+      return;
+    }
+    alert('Template add success!');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!recipientExcelFileId) {
+      alert('Please upload excel file to register your recipients.');
+    }
+    if (!title) {
+      alert('Please enter a title.');
+      return;
+    }
+    if (!content) {
+      alert('Please enter your content.');
+      return;
+    }
+    const { TEST_SENDER_NAME, TEST_SENDER_EMAIL } = process.env;
+
+    try {
+      await EmailService.create(recipientExcelFileId, {
+        title,
+        content,
+        senderName: TEST_SENDER_NAME,
+        senderEmail: TEST_SENDER_EMAIL,
+      });
+    } catch (err) {
+      alert('Failed to send email.');
+      return;
+    }
+    alert('Email send success!');
+  };
+
   return (
-    <Wrapper>
-      <TitleInput type="text" placeholder="Your E-mail Title" />
+    <Wrapper onSubmit={handleSubmit}>
+      <TitleInput
+        type="text"
+        placeholder="Your E-mail Title"
+        value={title}
+        onChange={handleTitleChange}
+      />
       <ContentWrapper>
-        <ContentTextarea />
+        <ContentTextarea value={content} onChange={handleContentChange} />
         <InfoText>
           {'! Please write ${' +
             "name} where you want to put the recipient's name."}
@@ -16,10 +109,14 @@ export default function Form() {
       </ContentWrapper>
       <ButtonWrapper>
         <TemplateButtonWrapper>
-          <TemplateButton>Save Teamplate</TemplateButton>
-          <TemplateButton>Add Template</TemplateButton>
+          {selectedTemplate && (
+            <TemplateButton onClick={saveTemplate}>
+              Save Teamplate
+            </TemplateButton>
+          )}
+          <TemplateButton onClick={addTemplate}>Add Template</TemplateButton>
         </TemplateButtonWrapper>
-        <SendButton>Send</SendButton>
+        <SubmitButton type="submit">Send</SubmitButton>
       </ButtonWrapper>
     </Wrapper>
   );
@@ -92,7 +189,7 @@ const TemplateButton = styled.button`
   background-color: ${WHITE};
 `;
 
-const SendButton = styled.button`
+const SubmitButton = styled.button`
   width: 20rem;
   height: 5rem;
   border-radius: 2.5rem;
