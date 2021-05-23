@@ -28,52 +28,52 @@ export default function EmailForm({
 
   const saveTemplate = async () => {
     if (!title) {
-      alert('제목을 입력해주세요.');
+      alert('Please enter a title.');
       return;
     }
     if (!content) {
-      alert('내용을 입력해주세요.');
+      alert('Please enter your content.');
       return;
     }
     try {
       await TemplateService.update(selectedTemplate?.id, { title, content });
     } catch (err) {
-      alert('템플릿 저장에 실패하였습니다.');
+      alert('Failed to save template.');
       return;
     }
-    alert('템플릿 내용이 저장되었습니다.');
+    alert('Template save success!');
   };
 
   const addTemplate = async () => {
     if (!title) {
-      alert('제목을 입력해주세요.');
+      alert('Please enter a title.');
       return;
     }
     if (!content) {
-      alert('내용을 입력해주세요.');
+      alert('Please enter your content.');
       return;
     }
     try {
       await TemplateService.create({ title, content });
     } catch (err) {
-      alert('템플릿 생성에 실패하였습니다.');
+      alert('Failed to add template.');
       return;
     }
-    alert('템플릿이 생성되었습니다.');
+    alert('Template add success!');
   };
 
   const handleSubmit = async (e) => {
-    alert('hi');
     e.preventDefault();
+
     if (!recipientExcelFileId) {
-      alert('엑셀 파일을 올려 수신인을 등록해주세요.');
+      alert('Please upload excel file to register your recipients.');
     }
     if (!title) {
-      alert('메일 제목을 입력해주세요.');
+      alert('Please enter a title.');
       return;
     }
     if (!content) {
-      alert('메일 내용을 입력해주세요.');
+      alert('Please enter your content.');
       return;
     }
     const { TEST_SENDER_NAME, TEST_SENDER_EMAIL } = process.env;
@@ -86,10 +86,10 @@ export default function EmailForm({
         senderEmail: TEST_SENDER_EMAIL,
       });
     } catch (err) {
-      alert('이메일 전송에 실패하였습니다.');
+      alert('Failed to send email.');
       return;
     }
-    alert('이메일이 전송되었습니다.');
+    alert('Email send success!');
   };
 
   return (

@@ -20,16 +20,16 @@ export default function TemplateInfoCard({
   selectTemplate,
 }: TemplateInfoCardProps) {
   const handleDeleteButtonClick = async () => {
-    if (!confirm('해당 템플릿을 삭제하시겠습니까?')) {
+    if (!confirm('Are you sure you want to delete the template?')) {
       return;
     }
     try {
       await TemplateService.deleteTemplate(id);
     } catch (err) {
-      alert('템플릿 삭제에 실패하였습니다.');
+      alert('Failed to delete template.');
       return;
     }
-    alert('템플릿이 삭제되었습니다.');
+    alert('Template delete success!');
   };
 
   return (
