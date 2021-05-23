@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import ExcelInputSection from './section/excel-input';
+import ExcelInputSection from './section/excel';
 import RecipientListSection from './section/recipient-list';
 import { GREY } from 'src/constants/colors';
 
