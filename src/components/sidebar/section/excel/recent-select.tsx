@@ -3,30 +3,45 @@ import styled from 'styled-components';
 
 import ChevronDownIcon from 'src/assets/icons/chevron/down';
 import { WHITE, GREY, BLACK } from 'src/constants/colors';
+import { useExcelList } from 'src/hooks/api/excel';
 
+// 백엔드 연결되면 삭제 예정
 const OPTION_DATA = [
   { value: 'Cat', text: 'Cat' },
   { value: 'Dog', text: 'Dog' },
 ];
 
-export default function RecentExcelFileSelect() {
-  const [selectedFileName, setSelectedFileName] = useState<string>();
+export default function RecentExcelFileSelect({
+  setSelectedFileId,
+}: {
+  setSelectedFileId: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  const { data } = useExcelList();
 
   const handleChange = (e) => {
-    setSelectedFileName(e.target.value);
+    setSelectedFileId(e.target.value);
   };
 
   return (
     <>
-      <Select value={selectedFileName}>
+      <Select>
         <Option selected disabled>
           Open Recent File
         </Option>
-        {OPTION_DATA.map(({ value, text }) => (
-          <Option key={value} value={value} onChange={handleChange}>
-            {text}
-          </Option>
-        ))}
+        {
+          // 백엔드 연결되면 삭제 예정
+        }
+        {data
+          ? data.result.map(({ id, blob_url, name, datetime }) => (
+              <Option key={id} value={id.toString()} onChange={handleChange}>
+                {name}
+              </Option>
+            ))
+          : OPTION_DATA.map(({ value, text }) => (
+              <Option key={value} value={value} onChange={handleChange}>
+                {text}
+              </Option>
+            ))}
       </Select>
       <ChevronDownIcon style={{ position: 'relative', right: '2.8rem' }} />
     </>

@@ -5,10 +5,14 @@ import ExcelInputSection from './section/excel';
 import RecipientListSection from './section/recipient-list';
 import { GREY } from 'src/constants/colors';
 
-export default function Sidebar() {
+export default function Sidebar({
+  setSelectedFileId,
+}: {
+  setSelectedFileId: React.Dispatch<React.SetStateAction<string>>;
+}) {
   return (
     <Wrapper>
-      <ExcelInputSection />
+      <ExcelInputSection setSelectedFileId={setSelectedFileId} />
       <RecipientListSection />
     </Wrapper>
   );
