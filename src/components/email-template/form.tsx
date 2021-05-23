@@ -26,7 +26,9 @@ export default function EmailForm({
     setContent(e.target.value);
   };
 
-  const saveTemplate = async () => {
+  const saveTemplate = async (e) => {
+    e.preventDefault();
+
     if (!title) {
       alert('Please enter a title.');
       return;
@@ -44,7 +46,9 @@ export default function EmailForm({
     alert('Template save success!');
   };
 
-  const addTemplate = async () => {
+  const addTemplate = async (e) => {
+    e.preventDefault();
+
     if (!title) {
       alert('Please enter a title.');
       return;
@@ -93,7 +97,7 @@ export default function EmailForm({
   };
 
   return (
-    <Wrapper onSubmit={handleSubmit}>
+    <Wrapper>
       <TitleInput
         type="text"
         placeholder="Your E-mail Title"
@@ -116,7 +120,7 @@ export default function EmailForm({
           )}
           <TemplateButton onClick={addTemplate}>Add Template</TemplateButton>
         </TemplateButtonWrapper>
-        <SubmitButton type="submit">Send</SubmitButton>
+        <SubmitButton onClick={handleSubmit}>Send</SubmitButton>
       </ButtonWrapper>
     </Wrapper>
   );
