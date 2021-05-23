@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import ExcelInputSection from './section/excel';
@@ -12,10 +12,18 @@ export default function Sidebar({
   selectedFileId: string;
   setSelectedFileId: React.Dispatch<React.SetStateAction<string>>;
 }) {
+  const [fileName, setFileName] = useState<string>('');
+
   return (
     <Wrapper>
-      <ExcelInputSection setSelectedFileId={setSelectedFileId} />
-      <RecipientListSection selectedFileId={selectedFileId} />
+      <ExcelInputSection
+        setSelectedFileId={setSelectedFileId}
+        setFileName={setFileName}
+      />
+      <RecipientListSection
+        fileName={fileName}
+        selectedFileId={selectedFileId}
+      />
     </Wrapper>
   );
 }

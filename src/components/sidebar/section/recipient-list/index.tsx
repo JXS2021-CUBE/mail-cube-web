@@ -33,15 +33,17 @@ const RECIPIENT_DATA = [
 ];
 
 export default function RecipientListSection({
+  fileName,
   selectedFileId,
 }: {
+  fileName: string;
   selectedFileId: string;
 }) {
   const { data } = useExcel(parseInt(selectedFileId, 10));
 
   return (
     <Wrapper>
-      <Title>File Name</Title>
+      <Title>{fileName}</Title>
       <RecipientWrapper>
         {
           // 백엔드 연결되면 삭제 예정

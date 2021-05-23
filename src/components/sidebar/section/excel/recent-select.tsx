@@ -13,18 +13,22 @@ const OPTION_DATA = [
 
 export default function RecentExcelFileSelect({
   setSelectedFileId,
+  setFileName,
 }: {
   setSelectedFileId: React.Dispatch<React.SetStateAction<string>>;
+  setFileName: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const { data } = useExcelList();
 
   const handleChange = (e) => {
-    setSelectedFileId(e.target.value);
+    const selected = data.result.filter((item) => item.name === e.target.value);
+    setSelectedFileId(selected[0].id.toString());
+    setFileName(e.target.value);
   };
 
   return (
     <>
-      <Select>
+      <Select onChange={handleChange}>
         <Option selected disabled>
           Open Recent File
         </Option>
@@ -33,12 +37,12 @@ export default function RecentExcelFileSelect({
         }
         {data
           ? data.result.map(({ id, blob_url, name, datetime }) => (
-              <Option key={id} value={id.toString()} onChange={handleChange}>
+              <Option key={id} value={name}>
                 {name}
               </Option>
             ))
           : OPTION_DATA.map(({ value, text }) => (
-              <Option key={value} value={value} onChange={handleChange}>
+              <Option key={value} value={value}>
                 {text}
               </Option>
             ))}

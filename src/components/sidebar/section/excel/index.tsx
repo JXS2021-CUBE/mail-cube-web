@@ -8,14 +8,19 @@ import RecentExcelFileSelect from './recent-select';
 
 export default function ExcelInputSection({
   setSelectedFileId,
+  setFileName,
 }: {
   setSelectedFileId: React.Dispatch<React.SetStateAction<string>>;
+  setFileName: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
     <Wrapper>
       <DownloadExcelButton />
       <NewExcelFileInput />
-      <RecentExcelFileSelect setSelectedFileId={setSelectedFileId} />
+      <RecentExcelFileSelect
+        setSelectedFileId={setSelectedFileId}
+        setFileName={setFileName}
+      />
     </Wrapper>
   );
 }
