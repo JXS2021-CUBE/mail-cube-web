@@ -10,3 +10,15 @@ export type EmailFormType = {
   senderName: string;
   senderEmail: string;
 };
+
+export type ExcelListType = {
+  id: number;
+  blob_url: string;
+  name: string;
+  datetime: string;
+};
+
+export type ExcelType = {
+  name: string;
+  email: string;
+};
