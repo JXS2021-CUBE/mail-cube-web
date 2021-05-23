@@ -1,5 +1,5 @@
 import { baseConfig } from '../Api';
-import { TemplateType } from 'src/types/template';
+import { TemplateType } from 'src/types';
 
 export const listConfig = () => baseConfig().get('/templates');
 

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import GlobalHeader from 'src/components/header';
 import Sidebar from 'src/components/sidebar';
-import { WHITE } from 'src/constants/colors';
 import EmailTemplate from 'src/components/email-template';
+import { WHITE } from 'src/constants/colors';
 
 export type GlobalLayoutProps = {
   children: ReactNode | ReactNodeArray;
@@ -16,7 +16,7 @@ export default function Home() {
       <GlobalHeader />
       <Content>
         <Sidebar />
-        <EmailTemplate />
+        <EmailTemplate recipientExcelFileId={null} />
       </Content>
     </Wrapper>
   );

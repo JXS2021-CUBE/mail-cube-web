@@ -8,7 +8,7 @@ import {
   updateConfig,
   deleteConfig,
 } from './config';
-import { TemplateType } from 'src/types/template';
+import { TemplateType } from 'src/types';
 
 export const list = async (): Promise<{
   msg: string;
@@ -42,7 +42,7 @@ export const deleteTemplate = async (id: number): Promise<void> =>
     return res.data;
   });
 
-const DisposalLocationService = {
+const TemplateService = {
   list,
   read,
   create,
@@ -50,4 +50,4 @@ const DisposalLocationService = {
   deleteTemplate,
 };
 
-export default DisposalLocationService;
+export default TemplateService;
