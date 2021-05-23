@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactNodeArray } from 'react';
+import React, { ReactNode, ReactNodeArray, useState } from 'react';
 import styled from 'styled-components';
 
 import GlobalHeader from 'src/components/header';
@@ -11,12 +11,17 @@ export type GlobalLayoutProps = {
 };
 
 export default function Home() {
+  const [selectedFileId, setSelectedFileId] = useState<string>(null);
+
   return (
     <Wrapper>
       <GlobalHeader />
       <Content>
-        <Sidebar />
-        <EmailTemplate recipientExcelFileId={null} />
+        <Sidebar
+          selectedFileId={selectedFileId}
+          setSelectedFileId={setSelectedFileId}
+        />
+        <EmailTemplate recipientExcelFileId={parseInt(selectedFileId, 10)} />
       </Content>
     </Wrapper>
   );

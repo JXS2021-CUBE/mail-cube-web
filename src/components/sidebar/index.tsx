@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import ExcelInputSection from './section/excel-input';
+import ExcelInputSection from './section/excel';
 import RecipientListSection from './section/recipient-list';
 import { GREY } from 'src/constants/colors';
 
-export default function Sidebar() {
+export default function Sidebar({
+  selectedFileId,
+  setSelectedFileId,
+}: {
+  selectedFileId: string;
+  setSelectedFileId: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  const [fileName, setFileName] = useState<string>('');
+
   return (
     <Wrapper>
-      <ExcelInputSection />
-      <RecipientListSection />
+      <ExcelInputSection
+        setSelectedFileId={setSelectedFileId}
+        setFileName={setFileName}
+      />
+      <RecipientListSection
+        fileName={fileName}
+        selectedFileId={selectedFileId}
+      />
     </Wrapper>
   );
 }

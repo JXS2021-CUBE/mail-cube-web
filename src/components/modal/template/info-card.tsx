@@ -43,7 +43,7 @@ export default function TemplateInfoCard({
         <Content>{content}</Content>
       </InfoWrapper>
       <DeleteButton onClick={handleDeleteButtonClick}>
-        <XIcon style={{ marginTop: '0.8rem' }} />
+        <XIcon />
       </DeleteButton>
     </Wrapper>
   );
@@ -87,4 +87,6 @@ const Content = styled.p`
 const DeleteButton = styled.button`
   border: none;
   background: none;
+  height: fit-content;
+  margin-top: 0.8rem;
 `;
